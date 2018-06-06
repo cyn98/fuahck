@@ -1,0 +1,138 @@
+ /* Dropdown Button */
+ .dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #52be80;
+}
+
+
+ /* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #639bec;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: initial;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 12px 14px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ec7063;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #27ae60;
+}
+
+.button {
+  padding: 10px 16px;
+  font-size: 18px;
+  text-align: center;
+  outline: none;
+  color: #fff;
+  background-color: #639bec;
+  border: none;
+  border-radius: 5px;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  /*cursor: not-allowed;*/
+  pointer-events: none;
+}
+
+.button:hover {background-color: #ec7063}
+
+.button:active {
+  background-color: #27ae60;
+  transform: translateY(2px);
+}
+
+.arrow_button {
+  padding: 15px 25px;
+  font-size: 28px;
+  text-align: center;
+  outline: none;
+  color: #fff;
+  background-color: #dc7633;
+  border: none;
+  border-radius: 5px;
+}
+
+.arrow_button:hover {background-color: #f39c12}
+
+.arrow_button:active {
+  background-color: #27ae60;
+  transform: translateY(2px);
+}
+
+.stop_button {
+  padding: 15px 25px;
+  font-size: 28px;
+  text-align: center;
+  outline: none;
+  color: #fff;
+  background-color: #dc7633;
+  border: none;
+  border-radius: 5px;
+}
+
+.stop_button:hover {background-color: #f39c12}
+
+.stop_button:active {
+  background-color:  #c0392b;
+  transform: translateY(2px);
+}

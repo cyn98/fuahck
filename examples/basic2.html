@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<!-- Load the scripts -->
+<script type="text/javascript" src="./roslib.min.js"></script>
+<script src="./eventemitter2.min.js"></script>
+<!-- <script src="../build/roslib.js"></script> -->
+<script src="./ros_connection2.js"></script>
+</head>
+
+<body onload="form1.reset();">
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'MeasureReqPage')" id="default"><strong>Measurement Request</strong></button>
+  <button class="tablinks" onclick="openTab(event, 'RoboStatus')"><strong>Robot Control & Status</strong></button>
+  <button class="tablinks" onclick="openTab(event, 'Calibration')"><strong>Calibration</strong></button>
+</div>
+
+<!-- Tab Page 1 content -->
+<div id="MeasureReqPage" class="tabcontent">
+
+  <h1>RadPiper Command Interface</h1>
+
+  <div id="statusIndicator">
+    <b>RadPiper Connection:</b>
+    <p id="connecting">
+      Connecting to rosbridge...
+    </p>
+    <b id="connected" style="color:#27ae60; display:none">
+      Connected
+    </b>
+    <b id="error" style="color:#FF0000; display:none">
+      Error in the backend!
+    </b>
+    <b id="closed" style="color:#e67e22; display:none">
+      Connection closed.
+    </b>
+  </div>
+
+  <!-- Load file -->
+    <div>
+      <label for="job_file">Upload a job file: </label>
+      <input type="file" id="job_file" name="job_file"
+            accept=".csv" onchange="parseCSV()" autocomplete="off">
+    </div>
+    <!-- <div>
+      <button>Upload</button>
+    </div> -->
+    <p id="file_status"></p>
+
+  <!-- Job Selection -->
+    Choose from the uploaded jobs:
+    <select id="myMenu" onchange="job_select()">
+      <option value="0"></option>
+    </select>
+
+    <p id="job_num"></p>
+
+  <!-- .csv loaded parameters  -->
+  <form name="executive_display" id="form1">
+  <table>
+   <tr><td>User Tech Name</td><td><input id="userTechText" name="userTechText" type="text" value="" disabled/></td>
+   <td>Project Name</td><td><input id="projectNameText" name="projectNameText" type="text" value="" disabled/></td></tr>
+   <tr><td>Requestor</td><td><input id="requestorText" name="requestorText" type="text" value="" disabled/></td>
+   <td>Request Number</td><td><input id="requestNoText" name="requestNoText" type="text" value="" disabled/></td></tr>
+   <tr><td>Letter Number</td><td><input id="letterNoText" name="letterNoText" type="text" value="" disabled/></td>
+   <td>Job ID</td><td><input id="jobIDText" name="jobIDText" type="text" value="" disabled/></td></tr>
+   <tr><td>Item ID</td><td><input id="itemIDText" name="itemIDText" type="text" value="" disabled/></td>
+   <td>Item Number</td><td><input id="itemNoText" name="itemNoText" type="text" value="" size=22 disabled/></td></tr>
+   <tr><td>Pipe Length</td><td><input id="lengthText" name="lengthText" type="text" value="" disabled/></td>
+   <td>Diameter</td><td><input id="diameterText" name="diameterText" type="text" value="" disabled/></td></tr>
+   <tr><td>Tags</td><td><input id="tagsText" name="tagsText" type="text" value="" disabled/></td>
+   </tr>
+   </table>
+   <!-- Fields that could be added to the table above -->
+   <!-- <tr><td>Location</td><td><input id="locationText" name="locationText" type="text" value=""/></td></tr> -->
+   <!-- <tr><td>Revision</td><td><input id="revisionText" name="revisionText" type="text" value=""/></td></tr> -->
+   <!-- <tr><td>Building</td><td><input id="buildingText" name="buildingText" type="text" value=""/></td></tr> -->
+   <!-- <tr><td>Unit</td><td><input id="unitText" name="unitText" type="text" value=""/></td></tr> -->
+   <!-- <tr><td>Cell</td><td><input id="cellText" name="cellText" type="text" value=""/></td></tr> -->
+   <!-- <tr><td>Stage</td><td><input id="stageText" name="stageText" type="text" value=""/></td></tr> -->
+   <!-- <tr><td>Floor</td><td><input id="floorText" name="floorText" type="text" value=""/></td></tr> -->
+   <!-- <tr><td>Abbreviation</td><td><input id="abbrevText" name="abbrevText" type="text" value=""/></td></tr> -->
+   <hr>
+
+   <!-- User inputs for Measurement Command -->
+   <table>
+   <tr><td>Velocity</td><td>
+    <input id="velocityText" name="velocityText" type="text" value="0" size=8 oninput="cb();"/> ft/min   <small id="vflag" style="color:#FF0000;"></small> </td></tr>
+   <tr><td>Drive Distance</td><td><input id="driveDistanceText" name="lengthText" type="text" value="Default Safeguard Distance"/></td></tr>
+   <tr><td>User Notes<br>(ex. nearby columns)</td><td><textarea id="userNotesText" name="userNotesText" rows=5 cols=40 value=""> </textarea>  </td></tr>
+  </table>
+
+  <!-- Checkbox -->
+  <br>
+  <b>I certify the following:</b>
+  <i>(All boxes must be checked to start measurement)</i>
+
+  <table border=1><tr><td> Operating Technician <br>
+  <input type="checkbox" name="confirm_pipe_location" id="cpl" onclick="cb();"> I verified correct pipe location<br>
+  <input type="checkbox" name="confirm_pipe_number" id="cpn" onclick="cb();"> I verified correct pipe number<br>
+  <input type="checkbox" name="confirm_pipe_diameter" id="cpd" onclick="cb();"> I verified correct pipe diameter<br>
+  <input type="checkbox" name="confirm_pipe_size" id="cps" onclick="cb();"> I verified RadPiper is configured for the correct pipe size<br>
+  <input type="checkbox" name="confirm_launch_rig" id="clr" onclick="cb();"> Launch rig is in position and ready for launch<br>
+     </td><td>
+         Validating Technician: <input id="validatingTechnician" name="validatingTechnician" type="text" value="" size=20/> <br>
+  <input type="checkbox" name="confirm_pipe_location2" id="cpl2" onclick="cb();"> I verified correct pipe location<br>
+  <input type="checkbox" name="confirm_pipe_number2" id="cpn2" onclick="cb();"> I verified correct pipe number<br>
+  <input type="checkbox" name="confirm_pipe_diameter2" id="cpd2" onclick="cb();"> I verified correct pipe diameter<br>
+  <input type="checkbox" name="confirm_pipe_size2" id="cps2" onclick="cb();"> I verified RadPiper is configured for the correct pipe size<br>
+  <input type="checkbox" name="confirm_launch_rig2" id="clr2" onclick="cb();"> Launch rig is in position and ready for launch<br>
+    </td></tr>
+  </table>
+  <!-- on click run the publish message function-->
+  <br>
+  <button id="sendCmd" type="button" class="button" onclick="verifyCmd()" autocomplete="off" disabled>Start Measurement</button>
+  </form>
+
+</div>
+
+<!-- Tab Page 2 content -->
+<div id="RoboStatus" class="tabcontent">
+  <h1>RadPiper Status</h1>
+
+  <div id="statusIndicator2">
+    <b>RadPiper Connection:   </b>
+    <p id="connecting2">
+      Connecting to rosbridge...
+    </p>
+    <b id="connected2" style="color:#27ae60; display:none">
+      Connected
+    </b>
+    <b id="error2" style="color:#FF0000; display:none">
+      Error in the backend!
+    </b>
+    <b id="closed2" style="color:#e67e22; display:none">
+      Connection closed.
+    </b>
+  </div>
+
+<link rel="stylesheet" href="./font-awesome.min.css">
+
+  <!-- Forward, Backward, Stop Buttons -->
+  <button style="font-size:30px" onclick="pubVel(-1)" class="arrow_button"><i class="fa fa-arrow-circle-left"></i>  Backward</button>
+  <button style="font-size:30px" onclick="pubVel(0)" class="stop_button">Stop <i class="fa fa-stop-circle"></i></button>
+  <button style="font-size:30px" onclick="pubVel(1)" class="arrow_button">Forward  <i class="fa fa-arrow-circle-right"></i></button>
+
+  <!-- Robot Diagnostics -->
+  <form name="statusPanel">
+  <p><b>Received Messages</b></p>
+  <table>
+   <tr><td>Robot State</td><td><input type="textbox" name="rs_output" value="" readonly/></input></td></td></tr>
+   <tr><td>Motion Stop</td><td><input type="textbox" name="ms_output" value="" readonly/></input></td></td></tr>
+   <tr><td>Voltage</td><td><input type="textbox" name="v_output" value="" readonly/></input> volts </td></td></tr>
+   <tr><td>Temperature</td><td><input type="textbox" name="temp_output" value="" readonly/></input></td></td></tr>
+   <tr><td>Errors</td><td><textarea id="errors" name="errors" rows=5 cols=40 value=""> </textarea>  </td></tr>
+  </table>
+  </form>
+
+   <img id="roboPIC" src="pipe_ex.png" alt="pipe_example" style="width:480px;height:384px;">
+
+</div>
+
+
+<!-- Tab Page 3 content -->
+<div id="Calibration" class="tabcontent">
+<h1>Calibration Confirmation</h1>
+  <div id="statusIndicator3">
+    <b>RadPiper Connection:   </b>
+    <p id="connecting3">
+      Connecting to rosbridge...
+    </p>
+    <b id="connected3" style="color:#27ae60; display:none">
+      Connected
+    </b>
+    <b id="error3" style="color:#FF0000; display:none">
+      Error in the backend!
+    </b>
+    <b id="closed3" style="color:#e67e22; display:none">
+      Connection closed.
+    </b>
+  </div>
+
+</div>
+
+<!-- Sets default page -->
+<script>
+  document.getElementById("default").click();
+</script>
+
+<!-- Load CSS -->
+<link rel="stylesheet" type="text/css" href="./basic2.css"/>
+
+</body>
+</html>

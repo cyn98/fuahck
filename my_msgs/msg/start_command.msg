@@ -1,0 +1,23 @@
+Header header
+
+float32 velocity
+string user_notes
+string user_tech_name
+string project_name
+string requestor
+string request_number
+string letter_number
+int32 revision
+int32 job_id
+string location
+int32 item_id
+string item_number
+string building
+string unit
+string cell
+string stage
+string floor
+string abbreviation
+float32 length
+float32 diameter 
+string tags
