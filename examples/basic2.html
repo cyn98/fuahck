@@ -139,12 +139,12 @@
     </b>
   </div>
 
-<link rel="stylesheet" href="./font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Forward, Backward, Stop Buttons -->
-  <button style="font-size:30px" onclick="pubVel(-1)" class="arrow_button"><i class="fa fa-arrow-circle-left"></i>  Backward</button>
-  <button style="font-size:30px" onclick="pubVel(0)" class="stop_button">Stop <i class="fa fa-stop-circle"></i></button>
-  <button style="font-size:30px" onclick="pubVel(1)" class="arrow_button">Forward  <i class="fa fa-arrow-circle-right"></i></button>
+  <button style="font-size:30px" onmousedown="pubVel(-1)" onmouseup="pubVel(0)"  class="arrow_button">Backward <i class="fa fa-arrow-circle-left"></i></button>
+  <button style="font-size:30px" onclick=""="pubVel(0)" class="stop_button">Stop <i class="fa fa-stop-circle"></i></button>
+  <button style="font-size:30px" onmousedown="pubVel(1)" onmouseup="pubVel(0)"  class="arrow_button">Forward  <i class="fa fa-arrow-circle-right"></i></button>
 
   <!-- Robot Diagnostics -->
   <form name="statusPanel">

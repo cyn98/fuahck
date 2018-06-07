@@ -108,13 +108,12 @@ var buttonVel = new ROSLIB.Message({
 
 var listenMotor = new ROSLIB.Topic({
     ros : ros,
-    name: '/motor_status',
+    name : '/motor_status',
     messageType : 'my_msgs/motor_status'
 });
 
 listenMotor.subscribe(function(message) {
-    // console.log('Received message on' + listenMotor.name);
-    // console.log(message.left_estop_status);
+    console.log('Received message on' + listenMotor.name);
     estop = document.getElementsByName('ms_output');
     estop[0].value = message.left_estop_status;
     voltage = document.getElementsByName('v_output');
@@ -132,7 +131,7 @@ var listenComments = new ROSLIB.Topic({
 
 // // Then we add a callback to be called every time a message is published on this topic.
 listenComments.subscribe(function(message) {
-// console.log('Received message on ' + listenComments.name + ': ' + message.data);
+console.log('Received message on ' + listenComments.name + ': ' + message.data);
 document.getElementsByName('errors')[0].value = message.data;
 // If desired, we can unsubscribe from the topic as well.
 // listener.unsubscribe();
@@ -140,7 +139,7 @@ document.getElementsByName('errors')[0].value = message.data;
 
 var imageTopic = new ROSLIB.Topic({
     ros : ros,
-    name : '/ROSTOPIC_FOR_IMAGE_HERE',
+    name : '/camera/image_raw/compressed',
     messageType : 'sensor_msgs/CompressedImage'
 });
 
@@ -162,6 +161,7 @@ function cb() {
     var s8 = document.getElementById("cpd2").checked ? 1 : 0;
     var s9 = document.getElementById("cps2").checked ? 1 : 0;
     var s10 = document.getElementById("clr2").checked ? 1 : 0;
+    var s11 = document.getElementById("validatingTechnician").value != "" ? 1 : 0;
 
     vel = Number(document.getElementById("velocityText").value);
     var v = 0;
@@ -173,11 +173,11 @@ function cb() {
         document.getElementById("vflag").innerText = "Please select a velocity command in range: 0 to 20,000";
     }
 
-    var total = s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + s10 + v;
+    var total = s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + s10 + s11 + v;
     // console.log(total)
 
     var startMbtn = document.getElementById('sendCmd');
-    if (total==11) {
+    if (total==12) {
         startMbtn.disabled = false;
     }
     else {
@@ -484,5 +484,5 @@ function verifyCmd() {
 // console.log('(4b) roslaunch rosbridge_server rosbridge_websocket.launch');
 
 // console.log('To test listeners:')
-// console.log('(5) rostopic pub /executive/comments std_msgs/String "Testing error box"');
+//console.log('(5) rostopic pub /executive/comments std_msgs/String "Testing error box"');
 // console.log('(6) rostopic pub /motor_status my_msgs/motor_status "{left_estop_status: False, right_estop_status: False, left_current_amps: -1.00999999046, right_current_amps: -0.460000008345, left_encoder_counts: -9422.0, right_encoder_counts: -10307.0, left_velocity_cps: 0.0, right_velocity_cps: 0.0, left_voltage_volts: 26.3999996185, right_voltage_volts: 26.6000003815, left_temperature_celsius: 26.0, right_temperature_celsius: 28.0}"');
